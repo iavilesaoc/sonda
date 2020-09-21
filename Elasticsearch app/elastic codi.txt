@@ -1,0 +1,400 @@
+
+    Private Sub FillGridPersones()
+
+        If ImputEntered() And asyncEstate = -1 Then
+                Me.btnBuscar.Enabled = False
+                Me.btnLimpiar.Enabled = False
+                Me.lblLoading.Visible = True
+                Me.ResetData()
+                If asyncEstate <> -1 Then
+                    conn.CancelDoQuery(asyncEstate)
+                    RemoveHandler conn.TincLesDadesDS, AddressOf Manegador
+                    asyncEstate = -1
+                End If
+                asyncEstate = asyncCount
+                AddHandler conn.TincLesDadesDS, AddressOf Manegador
+            asyncCount += 1
+
+            'Me.GridPersones.Columns.Clear()
+            'Me.GridPersones.DataSource = Nothing
+            'Me.GridPersones.DataSource = conn.DoQueryElastic(Me.BuildElasticSearch).Tables(0)
+            conn.DoQueryAsync(Me.BuildSQLSearch(), asyncEstate)
+
+        End If
+    End Sub
+	
+	
+	
+	  Public Function DoQueryElastic(ByVal query As String, Optional ByVal sCodINE As String = "") As System.Data.DataSet
+        Try
+            If sCodINE <> "" Then
+                Return s.GetDataSetElastic(query & GlobalVariables.CodIne & "&|", Me._Bd, Me._User, Me._Pass)
+            Else
+                Return s.GetDataSetElastic(query, Me._Bd, Me._User, Me._Pass)
+            End If
+        Catch ex As Exception
+            Return Nothing
+        End Try
+        Return Nothing
+
+
+
+    End Function
+	
+	
+	 '''<remarks/>
+    <SoapCompression, System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetDataSetElastic", RequestNamespace:="http://tempuri.org/", ResponseNamespace:="http://tempuri.org/", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>
+    Public Function GetDataSetElastic(ByVal sql As String, ByVal bd As String, ByVal User As String, ByVal Pass As String) As System.Data.DataSet
+        Dim results() As Object = Me.Invoke("GetDataSetElastic", New Object() {sql, bd, User, Pass})
+        Return CType(results(0), System.Data.DataSet)
+    End Function
+
+    '''<remarks/>
+    Public Function BeginGetDataSetElastic(ByVal sql As String, ByVal bd As String, ByVal User As String, ByVal Pass As String, ByVal callback As System.AsyncCallback, ByVal asyncState As Object) As System.IAsyncResult
+        Return Me.BeginInvoke("GetDataSetElastic", New Object() {sql, bd, User, Pass}, callback, asyncState)
+    End Function
+
+    '''<remarks/>
+    Public Function EndGetDataSetElastic(ByVal asyncResult As System.IAsyncResult) As System.Data.DataSet
+        Dim results() As Object = Me.EndInvoke(asyncResult)
+        Return CType(results(0), System.Data.DataSet)
+    End Function
+
+    '''<remarks/>
+    Public Overloads Sub GetDataSetElasticAsync(ByVal sql As String, ByVal bd As String, ByVal User As String, ByVal Pass As String)
+        Me.GetDataSetElasticAsync(sql, bd, User, Pass, Nothing)
+    End Sub
+
+    '''<remarks/>
+    Public Overloads Sub GetDataSetElasticAsync(ByVal sql As String, ByVal bd As String, ByVal User As String, ByVal Pass As String, ByVal userState As Object)
+        If (Me.GetDataSetElasticOperationCompleted Is Nothing) Then
+            Me.GetDataSetElasticOperationCompleted = AddressOf Me.OnGetDataSetElasticOperationCompleted
+        End If
+        Me.InvokeAsync("GetDataSetElastic", New Object() {sql, bd, User, Pass}, Me.GetDataSetElasticOperationCompleted, userState)
+    End Sub
+
+    Private Sub OnGetDataSetElasticOperationCompleted(ByVal arg As Object)
+        If (Not (Me.GetDataSetElasticCompletedEvent) Is Nothing) Then
+            Dim invokeArgs As System.Web.Services.Protocols.InvokeCompletedEventArgs = CType(arg, System.Web.Services.Protocols.InvokeCompletedEventArgs)
+            RaiseEvent GetDataSetElasticCompleted(Me, New GetDataSetElasticCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState))
+        End If
+    End Sub
+	
+	
+	'''<remarks/>
+<System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")>
+Public Delegate Sub GetDataSetElasticCompletedEventHandler(ByVal sender As Object, ByVal e As GetDataSetElasticCompletedEventArgs)
+
+'''<remarks/>
+<System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038"),
+ System.Diagnostics.DebuggerStepThroughAttribute(),
+ System.ComponentModel.DesignerCategoryAttribute("code")>
+Partial Public Class GetDataSetElasticCompletedEventArgs
+    Inherits System.ComponentModel.AsyncCompletedEventArgs
+
+    Private results() As Object
+
+    Friend Sub New(ByVal results() As Object, ByVal exception As System.Exception, ByVal cancelled As Boolean, ByVal userState As Object)
+        MyBase.New(exception, cancelled, userState)
+        Me.results = results
+    End Sub
+
+    '''<remarks/>
+    Public ReadOnly Property Result() As System.Data.DataSet
+        Get
+            Me.RaiseExceptionIfNecessary()
+            Return CType(Me.results(0), System.Data.DataSet)
+        End Get
+    End Property
+End Class
+
+
+
+     '''<remarks/>
+    Public Event GetDataSetElasticCompleted As GetDataSetElasticCompletedEventHandler
+	
+	
+	Private Function BuildElasticSearch() As String
+        Dim QueryES As String = String.Empty
+
+
+        QueryES += "nom?" & Me.T_Nom.Text & "¿M!A¡"
+        QueryES += "cognom1?" & Me.T_Cognom1.Text & "¿M!A"
+
+
+
+
+
+
+        Dim WhereStr As String = String.Empty
+        Dim sql As String = String.Empty
+        Dim consql As Boolean = True
+        Dim eEvent As System.ComponentModel.CancelEventArgs = New System.ComponentModel.CancelEventArgs
+        Dim tipodire As Integer = 0
+        Dim tipoNum As Integer = 0
+        Dim strDoc As String = Trim(Me.T_Documentacio.Text).Replace("'", "")
+        Dim numRegistros As Integer = 0
+
+        strDoc = strDoc.Replace("%", "") ' Ens assegurem que no porta ja metacaràcters.
+        strDoc = strDoc.Replace("+", "") ' En cas d'encara portar el metacaràcter "+" li ho treiem.
+        strDoc = "%" & strDoc & "%" 'Els hi afegim.
+
+        If strDoc = "%%" Then
+            strDoc = ""
+        End If
+
+        Dim strNom As String = AddSlashes(Trim(Me.T_Nom.Text)).Replace("+", "%")
+        Dim strCognom1 As String = AddSlashes(Trim(Me.T_Cognom1.Text)).Replace("+", "%")
+        Dim strCognom2 As String = AddSlashes(Trim(Me.T_Cognom2.Text)).Replace("+", "%")
+        Dim strdire As String = AddSlashes(Trim(Me.T_Direccio.Text)).Replace("+", "*").Replace("""", "")
+        Dim strNum As String = AddSlashes(Trim(Me.T_Num.Text)).Replace("+", "*").Replace("""", "")
+        Dim strNomSentit As String = AddSlashes(Trim(Me.TNomSentit.Text)).Replace("+", "%")
+
+        If strDoc.Length = 0 Then strDoc = "%"
+        If strNom.Length = 0 Then strNom = "%"
+        If strCognom1.Length = 0 Then strCognom1 = "%"
+        If strCognom2.Length = 0 Then strCognom2 = "%"
+        If strdire.Length = 0 Then strdire = "%"
+        If strNum.Length = 0 Then strNum = "%"
+        If strNomSentit.Length = 0 Then strNomSentit = "%"
+
+        If strdire.Trim.Length <= 1 And (strdire.Trim = "*" Or strdire.Trim = "%") Then
+            tipodire = 1
+        Else
+            strdire = String.Format("{0}{1}{2}", """", strdire.Trim, """")
+        End If
+
+        If strNum.Trim.Length <= 1 And (strNum.Trim = "*" Or strNum.Trim = "%") Then
+            tipoNum = 1
+        Else
+            strNum = String.Format("{0}{1}{2}", """", strNum.Trim, """")
+        End If
+
+
+
+
+
+
+
+        If radioPersonas.Checked = True Then
+            If exportando Then
+                numRegistros = Me.TotalRegistres
+            Else
+                numRegistros = GlobalVariables.RegistresPerPagina
+            End If
+
+            'sql per la paginació
+            sql = "EXEC SP_SelectUsuaris @IdProvincia=" & CInt(CSector.SelectedValue) & ", @IdMunicipi=" & CInt(CSubsector.SelectedValue) & ", @Nom='" & strNom & "',@NomSentit='" & strNomSentit & "', @Cognom1='" & strCognom1 & "', @Cognom2='" & strCognom2 & "', @Documentacio='" & strDoc & "', @Estat=" & CEstat.SelectedIndex - 1 & ", @IdEquip=" & CInt(CEquip.SelectedValue) & ", @IdProf=" & CInt(cbProfesional.SelectedValue) & ",@ordre='" & Me.OrdrePersona & "',@tipusordre='" & Me.tipusordre & "',@NumeroPagina=" & Me.NumPagina & ",@FilesPerPagina=" & numRegistros & ",@Dire='" & strdire & "',@tipodire=" & tipodire & ",@Num='" & strNum & "',@TipoNum=" & tipoNum
+        Else
+            sql = "EXEC SP_SelectExpedients @IdSector=" & CInt(CSector.SelectedValue) & ", @IdSubsector=" & CInt(CSubsector.SelectedValue) & ", @Nom='" & strNom & "', @Num='" & strDoc & "', @Estat=" & CEstat.SelectedIndex & ", @Tipus='" & CTipo.Text & "', @IdEquip=" & CInt(CEquip.SelectedValue) & ", @IdMode=" & 1 & ", @IdProf=" & CInt(cbProfesional.SelectedValue) & ",@ordre='" & Me.OrdreExpedient & "',@tipusordre='" & Me.tipusordre & "',@NumeroPagina=" & Me.NumPagina & ",@FilesPerPagina=" & GlobalVariables.RegistresPerPagina & ", @IdProfCoreferent=" & CInt(cbCoreferent.SelectedValue)
+        End If
+
+        ''Pedro Rio: 22/12/2016
+        ''Si es una cadena buida, no farà res de res.
+        'If strDoc = "%%" Then
+        '    sql = ""
+        'End If
+
+        Return QueryES
+    End Function
+	
+	
+	 Private GetDataSetElasticOperationCompleted As System.Threading.SendOrPostCallback
+	 
+	 
+	 
+	 
+	 
+	 web service:
+	 
+	 
+	 Imports System.Data
+Imports System.Data.SqlClient
+Imports Nest
+Imports System.IO
+Imports System
+Imports System.Text
+Imports System.Net
+Imports Microsoft.VisualBasic
+Imports System.Web
+Imports System.IO.Compression
+Imports System.Text.Encoding
+Imports System.Web.Services
+Imports System.Web.Services.Protocols
+Imports System.Security.Cryptography.X509Certificates
+Imports System.ComponentModel
+Imports System.Xml.Serialization
+Imports System.Xml
+Imports MSC
+Imports PSIS
+Imports Microsoft.Azure
+Imports Microsoft.WindowsAzure
+Imports Microsoft.WindowsAzure.Storage
+Imports Microsoft.WindowsAzure.Storage.Blob
+Imports System.Collections.Generic
+Imports System.Linq
+Imports System.Threading.Tasks
+
+Public Class Elastic
+
+
+    Public Class Persona
+        Public Property nom As String
+        Public Property cognom1 As String
+        Public Property cognom2 As String
+    End Class
+
+
+    Public Function Consulta(ByVal query As String) As DataSet
+
+
+        Try
+
+            Util.EscriuLog(query)
+
+            Dim node As New Uri("http://localhost:9200")
+
+            Dim settings As New ConnectionSettings(node)
+            settings.DefaultIndex("personas")
+
+
+            Dim client As New ElasticClient(settings)
+
+
+            Dim sr As SearchRequest(Of Persona) = New SearchRequest(Of Persona)
+            'sr.Query = New MatchAllQuery
+            sr.From() = 0
+
+
+
+
+
+
+            Dim strCamps() As String = query.Split("¡")
+
+
+            Dim camp As String = ""
+            Dim valor As String = ""
+            Dim TipoOp As String = ""
+            Dim TipoQuery As String = ""
+            Dim primer As Boolean = True
+            For Each cadenes As String In strCamps
+
+                camp = cadenes.Substring(0, cadenes.IndexOf("?"))
+                valor = cadenes.Substring(cadenes.IndexOf("?") + 1, cadenes.IndexOf("¿") - cadenes.IndexOf("?") - 1)
+                TipoOp = cadenes.Substring(cadenes.IndexOf("¿") + 1, cadenes.IndexOf("!") - cadenes.IndexOf("¿") - 1)
+                TipoQuery = cadenes.Substring(cadenes.IndexOf("!") + 1, cadenes.Length - cadenes.IndexOf("!") - 1)
+
+                Util.EscriuLog(camp)
+                Util.EscriuLog(valor)
+                Util.EscriuLog(TipoOp)
+                Util.EscriuLog(TipoQuery)
+                Dim mquery As MatchQuery
+                Select Case TipoOp
+                    Case "M"
+                        mquery = New MatchQuery
+                        mquery.Field = camp
+                        mquery.Query = valor
+
+                End Select
+
+                If primer Then
+                    sr.Query = mquery
+                    primer = False
+                Else
+                    Select Case TipoQuery
+                        Case "A"
+                            sr.Query = sr.Query And mquery
+                    End Select
+
+                End If
+            Next
+
+
+
+
+            'Dim mq = New MatchQuery
+
+            'mq.Field = "nom"
+            'mq.Query = "Isaac"
+            'Dim mq2 = New MatchQuery
+
+            'mq2.Field = "nom"
+            'mq2.Query = "Edu"
+
+            ''per ordenar per nom
+            'Dim LSort As New List(Of ISort)
+            'Dim fs As New FieldSort
+
+            'fs.Field = "nom"
+            'fs.Order = Nest.SortOrder.Descending
+            'LSort.Add(fs)
+
+            'sr.Sort = LSort
+
+            ''fi ordenacio
+
+            ''fem el or dels camps
+            'sr.Query = mq Or mq2
+
+
+            Util.EscriuLog("abans del response")
+
+            Dim response As SearchResponse(Of Persona) = New SearchResponse(Of Persona)
+
+            response = client.Search(Of Persona)(sr)
+
+
+
+            Dim d As New DataSet
+
+            If response.Hits.Count > 0 Then
+                Dim dt As New DataTable
+
+
+
+                dt.Columns.Add("nom")
+                dt.Columns.Add("cognom1")
+                dt.Columns.Add("cognom2")
+
+
+                For Each doc In response.Hits
+                    Util.EscriuLog(doc.Source.nom & " " & doc.Source.cognom1 & " " & doc.Source.cognom2)
+                    Dim dr As DataRow = dt.NewRow()
+                    dr("nom") = doc.Source.nom
+                    dr("cognom1") = doc.Source.cognom1
+                    dr("cognom2") = doc.Source.cognom2
+                    dt.Rows.Add(dr)
+                Next
+
+                d.Tables.Add(dt)
+            End If
+
+
+            Return d
+        Catch ex As Exception
+            Util.EscriuLog("Erroer al conultar con elasticsearch: " & ex.Message)
+        End Try
+    End Function
+
+End Class
+
+
+
+
+
+    <SoapCompression(), WebMethod()>
+    Public Function GetDataSetElastic(ByVal sql As String, ByVal bd As String, ByVal User As String, ByVal Pass As String) As DataSet
+        Dim sError As String = ""
+        'Isaac Avilés 17/1/2020
+        Util.EscriuLog("Busqueda mitjançant elsticsearch")
+        Util.EscriuLog(sql)
+        Util.EscriuLog(bd)
+        Dim elastic As New Elastic
+
+
+        'Aquesta assignació no tindria sentit. Per precaució no la trec.
+        'Util.Entitat = bd
+
+        Return elastic.Consulta(sql) 'ex.Executa(query, bd, User, Pass, sError, False)
+    End Function

@@ -1,0 +1,38 @@
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\bin\Debug\Elasticsearch.exe.config
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\obj\Debug\Elasticsearch.vbprojResolveAssemblyReference.cache
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\obj\Debug\Elasticsearch.Form1.resources
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\obj\Debug\Elasticsearch.Resources.resources
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\obj\Debug\Elasticsearch.vbproj.GenerateResource.Cache
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\obj\Debug\Elasticsearch.xml
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\bin\Debug\Elasticsearch.exe
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\bin\Debug\Elasticsearch.pdb
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\bin\Debug\Elasticsearch.xml
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\obj\Debug\Elasticsearch.exe
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\obj\Debug\Elasticsearch.pdb
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\bin\Debug\Elasticsearch.Net.dll
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\bin\Debug\Nest.dll
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\bin\Debug\System.Buffers.dll
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\bin\Debug\System.Diagnostics.DiagnosticSource.dll
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\bin\Debug\Elasticsearch.Net.pdb
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\bin\Debug\Elasticsearch.Net.xml
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\bin\Debug\Nest.pdb
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\bin\Debug\Nest.xml
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\bin\Debug\System.Buffers.xml
+c:\users\rhernandezm\documents\visual studio 2015\Projects\Elasticsearch\Elasticsearch\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\Users\iaviles\Desktop\Elasticsearch\bin\Debug\Elasticsearch.exe.config
+C:\Users\iaviles\Desktop\Elasticsearch\obj\Debug\Elasticsearch.exe
+C:\Users\iaviles\Desktop\Elasticsearch\obj\Debug\Elasticsearch.xml
+C:\Users\iaviles\Desktop\Elasticsearch\obj\Debug\Elasticsearch.pdb
+C:\Users\iaviles\Desktop\Elasticsearch\bin\Debug\Elasticsearch.exe
+C:\Users\iaviles\Desktop\Elasticsearch\bin\Debug\Elasticsearch.pdb
+C:\Users\iaviles\Desktop\Elasticsearch\bin\Debug\Elasticsearch.xml
+C:\Users\iaviles\Desktop\Elasticsearch\bin\Debug\Elasticsearch.Net.pdb
+C:\Users\iaviles\Desktop\Elasticsearch\bin\Debug\Elasticsearch.Net.xml
+C:\Users\iaviles\Desktop\Elasticsearch\bin\Debug\Nest.pdb
+C:\Users\iaviles\Desktop\Elasticsearch\bin\Debug\Nest.xml
+C:\Users\iaviles\Desktop\Elasticsearch\bin\Debug\System.Buffers.xml
+C:\Users\iaviles\Desktop\Elasticsearch\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\Users\iaviles\Desktop\Elasticsearch\obj\Debug\Elasticsearch.vbprojResolveAssemblyReference.cache
+C:\Users\iaviles\Desktop\Elasticsearch\obj\Debug\Elasticsearch.Form1.resources
+C:\Users\iaviles\Desktop\Elasticsearch\obj\Debug\Elasticsearch.Resources.resources
+C:\Users\iaviles\Desktop\Elasticsearch\obj\Debug\Elasticsearch.vbproj.GenerateResource.Cache
